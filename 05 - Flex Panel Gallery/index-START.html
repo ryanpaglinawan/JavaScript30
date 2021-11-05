@@ -26,6 +26,7 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -43,6 +44,11 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -56,8 +62,17 @@
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
+    .panel > *:first-child { transform: translateY(-100%); }
+    .panel.open-active > *:first-child { transform: translateY(0); }
+    .panel > *:last-child { transform: translateY(200%); }
+    .panel.open-active > *:last-child { transform: translateY(0); }
+    
     .panel p {
       text-transform: uppercase;
       font-family: 'Amatic SC', cursive;
@@ -71,6 +86,13 @@
 
     .panel.open {
       font-size: 40px;
+      flex: 5;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .panel p {
+        font-size: 1em;
+      }
     }
 
   </style>
@@ -105,10 +127,27 @@
   </div>
 
   <script>
+    const toggleOpen = (e) => {
+      setTimeout(function () { }, 1000);
+      if (e.type === 'mouseenter')
+        e.srcElement.classList.add('open');
 
+      if (e.type === 'mouseleave')
+        e.srcElement.classList.remove('open');
+    }
+
+    const toggleActive = (e) => {
+      ([...e.srcElement.classList].indexOf('open') !== -1) ? e.srcElement.classList.add('open-active') : e.srcElement.classList.remove('open-active')
+    }
+
+    //note: this code is intended to work on mouse event (enter-leave) and not on click
+    const panels = document.querySelectorAll('.panel');
+    [...panels].map(panel => {
+      panel.addEventListener('mouseenter', toggleOpen),
+      panel.addEventListener('mouseleave', toggleOpen),
+      panel.addEventListener('transitionend', toggleActive)
+    });
   </script>
-
-
 
 </body>
 </html>
