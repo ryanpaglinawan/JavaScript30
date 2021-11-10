@@ -3,10 +3,10 @@ const toggle = player.querySelector(".toggle");
 const video = player.querySelector(".viewer");
 const progressBar = player.querySelector(".progress__filled");
 const videoTimer = player.querySelector(".player__timer");
-
 const skipButtons = player.querySelectorAll("[data-skip]");
 const ranges = player.querySelectorAll(".player__slider");
 const progress = player.querySelector(".progress");
+const screenSize = player.querySelector(".player__screen");
 
 //play - pause
 const togglePlay = () => {
@@ -55,6 +55,12 @@ const handleTrack = (e) => {
   video.currentTime = (e.offsetX / progress.offsetWidth) * video.duration;
 };
 
+const toggleScreen = () => {
+  if (video.requestFullscreen) video.requestFullscreen();
+  else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+  else if (video.msRequestFullscreen) video.msRequestFullscreen();
+};
+
 //event listeners
 toggle.addEventListener("click", togglePlay);
 video.addEventListener("click", togglePlay);
@@ -69,3 +75,5 @@ var isMouseDown = false;
 progress.addEventListener("mousedown", () => (isMouseDown = true));
 progress.addEventListener("mouseup", () => (isMouseDown = false));
 progress.addEventListener("mousemove", (e) => isMouseDown && handleTrack(e));
+
+screenSize.addEventListener("click", toggleScreen);

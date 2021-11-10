@@ -56,6 +56,18 @@ body {
   max-width: 80px;
 }
 
+.player__screen {
+  background: none;
+  border: 0;
+  line-height: 1;
+  color: white;
+  text-align: center;
+  outline: 0;
+  padding: 0;
+  cursor: pointer;
+  max-width: 30px;
+}
+
 .player__button {
   background: none;
   border: 0;
