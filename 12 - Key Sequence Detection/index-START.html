@@ -1,12 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Key Detection</title>
-  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
-</head>
-<body>
-<script>
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Key Detection</title>
+    <script
+      type="text/javascript"
+      src="https://www.cornify.com/js/cornify.js"
+    ></script>
+  </head>
+  <body>
+    <script>
+      const secretKey = [
+        "up",
+        "down",
+        "up",
+        "down",
+        "left",
+        "right",
+        "left",
+        "right",
+        "a",
+        "b",
+      ]
+        .join("")
+        .toLocaleLowerCase();
+
+      //reset every 5secs if no activity
+      let resetKeySecs = 5;
+      const resetEntry = () => {
+        setInterval(() => {
+          if (resetKeySecs === 0) {
+            resetKeySecs = 5;
+            console.log("keyLogger cleared!");
+            if (keyEntry.length) keyEntry.length = 0;
+          }
+          resetKeySecs--;
+        }, 1000);
+      };
+
+      const keyEntry = [];
+      const keyLogger = (event) => {
+        keyEntry.push(event.key.replace("Arrow", ""));
+        resetKeySecs = 5; //reset timer on entry
+        if (keyEntry.join("").toLocaleLowerCase().includes(secretKey)) {
+          console.log("cornified!");
+          cornify_add();
+          keyEntry.length = 0;
+        }
+        console.log(keyEntry.join("").toLocaleLowerCase());
+      };
+      document.addEventListener("keyup", keyLogger);
+      resetEntry();
+    </script>
+  </body>
 </html>
