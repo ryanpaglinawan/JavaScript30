@@ -44,13 +44,15 @@ const handleProgress = () => {
 };
 
 const handleSkip = (e) => {
-  console.log("handle Skip", e.srcElement.dataset);
   video.currentTime += parseFloat(e.srcElement.dataset.skip);
 };
 
 const handleRange = (e) => {
-  console.log("handle Range", e.srcElement.name, e.srcElement.value);
   video[e.srcElement.name] = e.srcElement.value;
+};
+
+const handleTrack = (e) => {
+  video.currentTime = (e.offsetX / progress.offsetWidth) * video.duration;
 };
 
 //event listeners
@@ -62,3 +64,8 @@ video.addEventListener("timeupdate", handleProgress);
   range.addEventListener("change", handleRange),
     range.addEventListener("mousemove", handleRange);
 });
+
+var isMouseDown = false;
+progress.addEventListener("mousedown", () => (isMouseDown = true));
+progress.addEventListener("mouseup", () => (isMouseDown = false));
+progress.addEventListener("mousemove", (e) => isMouseDown && handleTrack(e));
